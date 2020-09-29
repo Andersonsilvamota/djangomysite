@@ -21,12 +21,10 @@ class Question(models.Model):
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, verbose_name='Questão')
     choice_text = models.CharField('Testo da escolha', max_length=200)
-    pub_date = models.DateTimeField('Data de publicação')
-    votes = models.IntegerField('Nº de votos',default=0)
 
-    def was_published_recently_Choice(self):
-        ontem = timezone.now() - timedelta(days=1)
-        return self.pub_date >= ontem
+    votes = models.IntegerField('Nº de votos', default=0)
+
+
 
     def __str__(self):
         return self.choice_text
