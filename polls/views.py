@@ -1,26 +1,29 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.views import generic
 from polls.models import Question
 
-def index(request, template_name="polls/index.html"):
-    latest_question_list = Question.objects.all().order_by('-pub_date')[:5]
-    context = {
-        "latest_question_list": latest_question_list,
-    }
-    return render(request, template_name, context)
+class IndexView(generic.ListView):
+    template_name = "polls/index.html"
+    context_object_name = "latest_question_list"
 
-def detail(request, question_id, template_name="polls/detail.html"):
-    question = get_object_or_404(Question, id=question_id)
-    context = {
-        "question": question,
-    }
-    return render(request, template_name, context)
+    def get_queryset(self):
+        return Question.objects.all().order_by("pub_date")[:5]
 
-def votos(request, question_id, template_name="polls/votos.html"):
-    question = get_object_or_404(Question, id=question_id)
-    context = {
-        "question": question,
-    }
-    return render(request, template_name, context)
+class DetailView(generic.DetailView):
+    template_name = "polls/detail.html"
+    model = Question
+
+class VoteView(generic.View):
+
+    def post(self, request, question_id):
+        question = get_object_or_404(Question, id=question_id)
+        choice = question.choice_set.get(id=request.POST['choice'])
+        choice.votes += 1
+        choice.save()
+        return redirect('detail', question_id)
+
+
+
 '''
 def sobre(request):
     print('equipe pweb')
