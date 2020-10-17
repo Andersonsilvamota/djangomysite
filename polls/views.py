@@ -22,13 +22,13 @@ class VoteView(generic.View):
         choice.save()
         return redirect('detail', question_id)
 
+class SobreView(generic.TemplateView):
+    template_name = 'polls/sobre.html'
+    def get_queryset(self):
+        return redirect('sobre')
 
 
 '''
-def sobre(request):
-    print('equipe pweb')
-    return HttpResponse('minha equipe pweb:anso,mayk,fontineles')
-
 def turmaA(request):
     print('')
     return  HttpResponse('Professor: Leonardo')
