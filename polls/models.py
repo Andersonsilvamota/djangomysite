@@ -3,6 +3,10 @@ from django.db import models
 from django.utils import timezone
 
 class Question(models.Model):
+    class Meta:
+        verbose_name = 'Questão'
+        verbose_name_plural = 'Questões'
+        ordering = ('pub_date',)
     question_text = models.CharField('Texto da questão', max_length=200, help_text='Informe o texto da questão.')
     pub_date = models.DateTimeField('Data de publicação')
 
@@ -10,6 +14,8 @@ class Question(models.Model):
         ontem = timezone.now() - timedelta(days=1)
         return self.pub_date >= ontem
 
+    was_published_recently.short_description = "Publicado recentimente"
+    was_published_recently.boolean = True
     def __str__(self):
         return self.question_text
 
@@ -19,6 +25,9 @@ class Question(models.Model):
         return self.choice_set.get(votes__exact=maior)
 
 class Choice(models.Model):
+    class Meta:
+        verbose_name = 'Opção'
+        verbose_name_plural = 'Opções'
     question = models.ForeignKey(Question, on_delete=models.CASCADE, verbose_name='Questão')
     choice_text = models.CharField('Testo da escolha', max_length=200)
 
