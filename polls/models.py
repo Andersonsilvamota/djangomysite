@@ -31,6 +31,7 @@ class Choice(models.Model):
     class Meta:
         verbose_name = 'Opção'
         verbose_name_plural = 'Opções'
+
     question = models.ForeignKey(Question, on_delete=models.CASCADE, verbose_name='Questâo')
     choice_text = models.CharField('Texto do choice', max_length=200)
     pub_date = models.DateTimeField('Data de publicacao', default=timezone.now)

@@ -9,14 +9,14 @@ class ChoiceInline(admin.TabularInline):
     readonly_fields = ('votes', )
 
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ('question_text', 'pub_date', 'was_published_recently', 'choices_count',)
+    list_display = ('question_text', 'pub_date', 'was_published_recently', 'choices_count', 'is_public', )
     search_fields = ('question_text',)
     list_filter = ('pub_date', )
     readonly_fields = ('was_published_recently', 'maior_choice', 'is_public', )
 
     fieldsets = (
         ('Dados da questão', {'fields': ('question_text', )}),
-        ('Informações', {'fields': ('pub_date', 'was_published_recently', )}),
+        ('Informações', {'fields': ('pub_date', 'was_published_recently', 'is_public', )}),
     )
     inlines = (ChoiceInline,)
     actions = ('action_pub_date_now', 'public_question', 'unpublish', )
