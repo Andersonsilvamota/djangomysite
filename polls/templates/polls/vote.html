@@ -63,12 +63,13 @@
                     <div class="divider-custom-line"></div>
                 </div>
                 <!-- Portfolio Grid Items-->
+                <h1 style="font-size: 30px" class="page-section-heading text-center text-uppercase text-secondary mb-0">{{ question.question_text }}</h1><br>
+
                 <div class="row" >
                     <!-- Portfolio Item 1-->
                     <div  style="margin-bottom: 100px" class="row" >
                         <!-- Portfolio Item 1-->
-                        <h1 style="margin-left: 400px; font-size: 30px" class="page-section-heading text-center text-uppercase text-secondary mb-lg-n2">{{ question.question_text }}</h1>
-                        <table>
+                        <table style="margin-left: 450px">
                             <tr>
                                 <td>
                                     <form action="{% url 'vote' question.id %}" method="post">{% csrf_token %}
@@ -76,14 +77,15 @@
                                             {% for choice in question.choice_set.all %}
                                                 <li><input type="radio" name="choice" value="{{ choice.id }}"> {{ choice.choice_text }}</li>
                                             {% endfor %}
-
+                                        <input style="margin-top: 50px" class="btn btn-secondary btn-lg btn-block" type="submit" value="Votar">
                                         </ul>
-                                    <input class="btn btn-dark" type="submit" value="Votar">
+
                                     </form>
+
                                 </td>
 
                                 <td>
-                                    <ul>
+                                    <ul style="margin-top: -98px">
 
                                         {% for choice in question.choice_set.all %}
                                             <li>Nº de votos: {{ choice.votes }}</li>
