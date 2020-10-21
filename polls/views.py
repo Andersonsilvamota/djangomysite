@@ -14,19 +14,16 @@ class DetailView(generic.DetailView):
     model = Question
 
 
-
 class VoteView(generic.DetailView):
     template_name = 'polls/vote.html'
     model = Question
 
-class VoteView(generic.View):
-
-    def post(self, request, question_id):
-        question = get_object_or_404(Question, id=question_id)
-        choice = question.choice_set.get(id=request.POST['choice'])
+    def post(self, request, *args, **kwargs):
+        choice = self.get_object().choice_set.get(id=request.POST['choice'])
         choice.votes += 1
         choice.save()
-        return redirect('detail', question_id)
+        return super(VoteView, self).get(request, *args, **kwargs)
+
 
 class SobreView(generic.TemplateView):
     template_name = 'polls/sobre.html'
@@ -36,20 +33,6 @@ class SobreView(generic.TemplateView):
 
 
 
-class MvotosView(generic.DetailView):
-    template_name = 'polls/vote.html'
-    model = Question
-
-
-class voteView(generic.View):
-
-    def post(self, request, question_id):
-
-        question = get_object_or_404(Question, id=question_id)
-        choice = question.choice_set.get(id=request.POST['choice'])
-        choice.votes += 1
-        choice.save()
-        return redirect('vote', question_id)
 
 
 '''
